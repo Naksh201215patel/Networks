@@ -1,42 +1,35 @@
-Webcam.set({
-    width:350,
-    height:300,
-    image_format:"png",
-    png_qality:90,
-});
+var SpeechRecognition = window.webkitSpeechRecognition;
+var Content;
+var recognition = new SpeechRecognition();
+
+function start()
+{
+    recognition.start();
+} 
+
+
 camera = document.getElementById("camera");
+Webcam.set({
+    width:500,
+    height:400,
+    image_format : 'jpeg',
+    jpeg_quality:90
+});
 
-Webcam.attach('#camera');
 
-function take_snapshot()
-{
-    Webcam.snap(function(data_uri){
 
-      document.getElementById("result").innerHTML = '<img id="captured_image" src="'+data_uri+'"/>'; 
+function speak(){
 
-    });
+    settimeout(function()){
+
+    
+    var synth = window.speechSynthesis;
+    Webcam.attach(camera);
+
+    speak_data = "Taking your next Selfie in 5 seconds";
+    var utterThis = new SpeechSynthesisUtterance(speak_data);
+    synth.speak(utterThis);
+    }
+
+
 }
-console.log('ml5 version:',ml5.version);
-
-classifier = ml5.imageClassifier("https://teachablemachine.withgoogle.com/models/A5Tes5ze5/model.json",modelLoaded);
-
-function modelLoaded(){
-  console.log("Model Loaded!");
-}
-function check()
-{
-  img = document.getElementById('captured -image');
-  classifier.classify(img,gotResult);
-
-}
-
-function gotResult(error, results){
-  if(error){
-    console.error(error);
-  } else{
-    console.log(results);
-    document.getElementById("result_object_name").innerHTML = results[0].label;
-    document.getElementById("result_object_accuracy").innerHTML=results[0].confidence;
-  }
-}
-
